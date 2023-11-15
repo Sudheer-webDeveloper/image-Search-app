@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <h1>Image Search Engine</h1>
+
+    <form id="Search-form">
+        <input type="text" id="search-box" placeholder="Search Anything Here...">
+        <button>Search</button>
+    </form>
+
+
+    <div class="search-result">
+
+    </div>
+    <button id="show-more-btn">Show More</button>
+
+    <script>
+
+        const accessKey = "5Ev0BJJcXm6lrCwJlZgvAcOpyrm1cyox2wBxPYEt8dg";
+
+        const searchForm = document.getElementById("Search-form")
+        const searchBox = document.getElementById("search-box")
+        const searchResult = document.getElementById("search-result")
+        const showMoreBtn = document.getElementById("show-more-btn")
+
+
+        let keyword = "";
+        let page = 1;
+
+        async function searchImages() {
+            keyword = searchBox.value;
+            const url = `https://api.unsplash.com/search/photos?page=${page}&query=${keyword}&client_id=${accessKey}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const results = data.results;
+
+            results.map((result) => {
+                const image = document.createElement("img");
+                image.src = result.urls.small;
+                const imagebink = document.createElement("a");
+                imagebink.href = result.links.html;
+                imagebink.target = "_blank";
+                imagebink.appendChild(image);
+                searchResult.appendChild(imageink);
+
+            })
+        }
+
+        searchForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            page = 1;
+            searchImages();
+
+        })
+    </script>
+</body>
+
+</html>
